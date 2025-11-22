@@ -18,13 +18,18 @@
   users.groups.tnu = {};
   users.groups.addi = {};
   users.users = {
+    root = {
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
+      ];
+    };
     tnu = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       initialPassword = "jupyter";
       group = "tnu";
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBx7Q4gxioqzh7MlZ3JKHGGrOokqWkM20aHzSX2qjGnS tnu@aster"
       ];
     };
     addi ={
@@ -40,14 +45,6 @@
       cores = 4;
       graphics = false;
     };
-  };
-
-  security.pam = {
-    services.sudo.sshAgentAuth = true;
-    sshAgentAuth.enable = true;
-    sshAgentAuth.authorizedKeysFiles = [
-      "~/.ssh/authorized_keys"
-    ];
   };
 
   services.openssh.enable = true;
