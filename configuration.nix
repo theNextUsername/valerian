@@ -23,7 +23,7 @@
       extraGroups = [ "wheel" ];
       initialPassword = "jupyter";
       group = "tnu";
-      openssh.authorizedKeys = [
+      openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
       ];
     };
