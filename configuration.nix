@@ -6,10 +6,12 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   networking.hostName = "valerian";
+  networking.domain = "homelab.thenextusername.xyz";
   networking.firewall.allowedTCPPorts = [ 22 8000 ];
   
   environment.systemPackages = with pkgs; [
     wget
+    git
   ];
   
   users.mutableUsers = true;
@@ -21,18 +23,14 @@
       extraGroups = [ "wheel" ];
       initialPassword = "jupyter";
       group = "tnu";
+      openssh.authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
+      ];
     };
     addi ={
       isNormalUser = true;
       initialPassword = "jupyter";
       group = "addi";
-      packages = with pkgs; [
-        python3
-        conda
-        python3Packages.numpy
-        python3Packages.sympy
-        python3Packages.matplotlib
-      ];
     };
   };
 
@@ -42,6 +40,11 @@
       cores = 4;
       graphics = false;
     };
+  };
+
+  security.pam = {
+    services.sudo.sshAgentAuth = true;
+    sshAgentAuth.enable = true;
   };
 
   services.openssh.enable = true;
