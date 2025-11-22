@@ -45,6 +45,9 @@
   security.pam = {
     services.sudo.sshAgentAuth = true;
     sshAgentAuth.enable = true;
+    sshAgentAuth.authorizedKeysFiles = [
+      "~/.ssh/authorized_keys"
+    ];
   };
 
   services.openssh.enable = true;
