@@ -15,6 +15,13 @@
       inherit system;
       modules = [
         ./configuration.nix
+        ./hardware-configuration.nix
+      ];
+    };
+    nixosConfigurations.valerian-vma = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        ./configuration.nix
         ./hardware-proxmox.nix
       ];
     };

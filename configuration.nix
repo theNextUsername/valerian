@@ -1,9 +1,9 @@
 { pkgs, modulesPath, ... }:
 
 {
-  services.cloud-init.network.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   networking.hostName = "valerian";
   networking.domain = "homelab.thenextusername.xyz";
@@ -12,17 +12,18 @@
   environment.systemPackages = with pkgs; [
     wget
     git
+    btop
   ];
   
   users.mutableUsers = true;
   users.groups.tnu = {};
   users.groups.addi = {};
   users.users = {
-    # root = {
-    #   openssh.authorizedKeys.keys = [
-    #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu"
-    #   ];
-    # };
+    root = {
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu"
+      ];
+    };
     tnu = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
