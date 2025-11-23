@@ -1,8 +1,8 @@
 { pkgs, modulesPath, ... }:
 
 {
-  imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
-  
+  services.cloud-init.network.enable = true;
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   networking.hostName = "valerian";
@@ -18,18 +18,18 @@
   users.groups.tnu = {};
   users.groups.addi = {};
   users.users = {
-    root = {
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
-      ];
-    };
+    # root = {
+    #   openssh.authorizedKeys.keys = [
+    #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu"
+    #   ];
+    # };
     tnu = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       initialPassword = "jupyter";
       group = "tnu";
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBx7Q4gxioqzh7MlZ3JKHGGrOokqWkM20aHzSX2qjGnS tnu@aster"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBx7Q4gxioqzh7MlZ3JKHGGrOokqWkM20aHzSX2qjGnS tnu"
       ];
     };
     addi ={
@@ -47,8 +47,15 @@
     };
   };
 
-  services.openssh.enable = true;
-  
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "prohibit-password";
+    };
+  };
+
   services.jupyterhub = {
     enable = true;
     extraConfig = ''

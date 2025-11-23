@@ -15,15 +15,13 @@
       inherit system;
       modules = [
         ./configuration.nix
+        ./hardware-proxmox.nix
       ];
     };
     
     devShells.${system} = {
       default = pkgs.mkShellNoCC {
         QEMU_NET_OPTS = "hostfwd=tcp::2221-:22,hostfwd=tcp::8081-:8081,hostfwd=tcp::8000-:8000";
-        shellHook = ''
-          alias ssh='ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -p 2221';
-        '';
       };
     };
   };
