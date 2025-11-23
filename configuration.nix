@@ -2,8 +2,11 @@
 
 {
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  boot.loader.grub.enable = false;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   networking.hostName = "valerian";
   networking.domain = "homelab.thenextusername.xyz";
@@ -20,8 +23,9 @@
   users.groups.addi = {};
   users.users = {
     root = {
+      isNormalUser = true;
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
       ];
     };
     tnu = {
@@ -30,7 +34,7 @@
       initialPassword = "jupyter";
       group = "tnu";
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBx7Q4gxioqzh7MlZ3JKHGGrOokqWkM20aHzSX2qjGnS tnu"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBx7Q4gxioqzh7MlZ3JKHGGrOokqWkM20aHzSX2qjGnS tnu@aster"
       ];
     };
     addi ={
