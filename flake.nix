@@ -18,13 +18,6 @@
         ./hardware-configuration.nix
       ];
     };
-    nixosConfigurations.valerian-vma = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [
-        ./configuration.nix
-        ./hardware-proxmox.nix
-      ];
-    };
     
     devShells.${system} = {
       default = pkgs.mkShellNoCC {

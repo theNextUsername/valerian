@@ -1,4 +1,4 @@
-{ pkgs, nixpkgs, modulesPath, stdenv, ... }:
+{ pkgs, ... }:
 let
   xeus-octave = pkgs.callPackage ./xeus-octave/package.nix {
     xeus-zmq = pkgs.xeus-zmq.overrideAttrs ( rec {
@@ -17,7 +17,7 @@ in
 
   hardware.graphics.enable = true;
 
-  boot.loader.grub.enable = false;
+  boot.loader.grub.enable = true;
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 
@@ -102,15 +102,7 @@ in
       logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
     };
   
-    kernels.octave =
-    let
-      env = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
-          ipykernel
-          xeus-octave
-          pkgs.xvfb-run
-          plotly
-      ]));
-    in {
+    kernels.octave = {
       displayName = "Octave Notebook";
       argv = [
         "${pkgs.xvfb-run}/bin/xvfb-run"
@@ -119,6 +111,8 @@ in
         "{connection_file}"
       ];
       language = "octave";
+      logo32 = "${xeus-octave}/share/jupyter/kernels/xoctave/logo-32x32.png";
+      logo64 = "${xeus-octave}/share/jupyter/kernels/xoctave/logo-64x64.png";
     };
   };
 

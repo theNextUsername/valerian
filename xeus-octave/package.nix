@@ -24,8 +24,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-7kH2BI7DZI2C8TMIZh25R2y1Unx1h5EARBxL0H2G5rs=";
   };
 
-  buildInputs = [
+  nativeBuildInputs = [
     cmake
+  ];
+
+  buildInputs = [
     pkg-config
     zlib
     libpng
@@ -37,18 +40,5 @@ stdenv.mkDerivation rec {
     octave
     glfw
   ];
-
-  # buildPhase = ''
-  #   runHook preBuild
-  #   cmake -B build
-  #   cmake --build build
-  #   runHook postBuild
-  # '';
-
-  # installPhase = ''
-  #   runHook preInstall
-  #   cmake --install build
-  #   runHook postInstall
-  # '';
 }
 
