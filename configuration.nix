@@ -56,6 +56,9 @@ in
       isNormalUser = true;
       initialPassword = "jupyter";
       group = "addi";
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINIVt4eAR5UNJ+JakVApDaqbiMMY8Lrf61wxPvfJR3OE addis@DESKTOP-0FDTPUL"
+      ];
     };
   };
 
