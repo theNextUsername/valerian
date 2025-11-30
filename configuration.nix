@@ -1,6 +1,21 @@
-{ pkgs, modulesPath, ... }:
+{ pkgs, nixpkgs, modulesPath, stdenv, ... }:
+let
+  xeus-octave = pkgs.callPackage ./xeus-octave/package.nix {
+    xeus-zmq = pkgs.xeus-zmq.overrideAttrs ( rec {
+      version = "3.1.1";
+      src = pkgs.fetchFromGitHub {
+        owner = "jupyter-xeus";
+        repo = "xeus-zmq";
+        rev = "${version}";
+        hash = "sha256-7Af+zhz2VSXYwrQPSef/1HBmkhhYPyI1KzzhCkUJ3XY=";
+      };
+    });
 
+  };
+in
 {
+
+  hardware.graphics.enable = true;
 
   boot.loader.grub.enable = false;
   # boot.loader.systemd-boot.enable = true;
@@ -23,7 +38,6 @@
   users.groups.addi = {};
   users.users = {
     root = {
-      isNormalUser = true;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzZsCPr9p5bdDz1wyhKelr+y8KtqlQDrzK63nWy1wzj tnu@aster"
       ];
@@ -87,7 +101,25 @@
       logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
       logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
     };
-
+  
+    kernels.octave =
+    let
+      env = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+          ipykernel
+          xeus-octave
+          pkgs.xvfb-run
+          plotly
+      ]));
+    in {
+      displayName = "Octave Notebook";
+      argv = [
+        "${pkgs.xvfb-run}/bin/xvfb-run"
+        "${xeus-octave}/bin/xoctave"
+        "-f"
+        "{connection_file}"
+      ];
+      language = "octave";
+    };
   };
 
   system.stateVersion = "25.05";
