@@ -1,7 +1,7 @@
 { ... }: {
   services.cloud-init.network.enable = true;
 
-  virtualisation.diskSize = 8 * 1024;
+  virtualisation.diskSize = 32 * 1024;
   # virtualisation.qemu.guestAgent.enable = true;
 
   proxmox = {
