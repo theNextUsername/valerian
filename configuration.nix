@@ -17,8 +17,8 @@ in
 
   hardware.graphics.enable = true;
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = config.fileSystems."/".device;
+  boot.loader.grub.enable = false;
+  # boot.loader.grub.device = config.fileSystems."/".device;
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 
