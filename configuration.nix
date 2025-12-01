@@ -1,5 +1,6 @@
 { pkgs, config, ... }:
 let
+  octave_with_packages = pkgs.octave.withPackages (ps: with ps; [ strings ]);
   xeus-octave = pkgs.callPackage ./xeus-octave/package.nix {
     xeus-zmq = pkgs.xeus-zmq.overrideAttrs ( rec {
       version = "3.1.1";
@@ -10,7 +11,7 @@ let
         hash = "sha256-7Af+zhz2VSXYwrQPSef/1HBmkhhYPyI1KzzhCkUJ3XY=";
       };
     });
-
+    octave = octave_with_packages;
   };
 in
 {
@@ -32,6 +33,7 @@ in
     wget
     git
     btop
+    octave_with_packages
   ];
   
   users.mutableUsers = true;
